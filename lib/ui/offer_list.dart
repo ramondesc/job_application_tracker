@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../data/moor_database.dart';
+import 'package:job_application_tracking/new_offer.dart';
 
 class OfferList extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class OfferList extends StatelessWidget {
         length: 5,
         child: Scaffold(
             appBar: AppBar(
-              title: Text('Bem vindo!'),
+              title: Text('Welcome!'),
               bottom: TabBar(tabs: [
                 Tab(icon: Icon(Icons.star_border)),
                 Tab(icon: Icon(Icons.send)),
@@ -29,10 +30,10 @@ class OfferList extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                /*Navigator.push(
+                Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => NewOffer()),
-              );*/
+              );
               },
               tooltip: 'New entry',
               child: Icon(Icons.add),
