@@ -1,7 +1,7 @@
 //import 'Offer.dart';
 import 'package:flutter/material.dart';
-//import 'data/moor_database.dart';
-//import 'package:provider/provider.dart';
+import 'data/moor_database.dart';
+import 'package:provider/provider.dart';
 
 class NewOffer extends StatefulWidget {
   @override
@@ -11,6 +11,7 @@ class NewOffer extends StatefulWidget {
 }
 
 class _NewOfferState extends State<NewOffer> {
+
   final _jobTitleController = TextEditingController();
   final _companyController = TextEditingController();
   final _salaryController = TextEditingController();
@@ -91,7 +92,13 @@ class _NewOfferState extends State<NewOffer> {
           backgroundColor: Colors.red,
           onPressed: () {
             if (_formKey.currentState.validate()) {
-              //final dao = Provider.of<OfferDao>(context);
+              final dao = Provider.of<OfferDao>(context);
+              final offer = Offer(
+                id: 0,
+                company: _companyController.text,
+                title: _jobTitleController.text
+              );
+              dao.insertOffer(offer);
               }
             Navigator.pop(context);
           },
