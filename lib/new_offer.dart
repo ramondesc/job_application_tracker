@@ -1,4 +1,5 @@
 //import 'Offer.dart';
+
 import 'package:flutter/material.dart';
 import 'data/moor_database.dart';
 import 'package:provider/provider.dart';
@@ -94,9 +95,10 @@ class _NewOfferState extends State<NewOffer> {
             if (_formKey.currentState.validate()) {
               final dao = Provider.of<OfferDao>(context);
               final offer = Offer(
-                id: 0,
                 company: _companyController.text,
-                title: _jobTitleController.text
+                title: _jobTitleController.text,
+                salary: double.parse(_salaryController.text),
+                status: offerStatus
               );
               dao.insertOffer(offer);
               }

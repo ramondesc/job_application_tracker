@@ -11,17 +11,22 @@ class Offer extends DataClass implements Insertable<Offer> {
   final int id;
   final String title;
   final String company;
+  final String status;
+  final double salary;
   final DateTime applicationDate;
   Offer(
       {@required this.id,
       @required this.title,
       @required this.company,
+      @required this.status,
+      @required this.salary,
       this.applicationDate});
   factory Offer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final doubleType = db.typeSystem.forDartType<double>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Offer(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
@@ -29,6 +34,10 @@ class Offer extends DataClass implements Insertable<Offer> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}title']),
       company:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}company']),
+      status:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}status']),
+      salary:
+          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}salary']),
       applicationDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}application_date']),
     );
@@ -39,6 +48,8 @@ class Offer extends DataClass implements Insertable<Offer> {
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       company: serializer.fromJson<String>(json['company']),
+      status: serializer.fromJson<String>(json['status']),
+      salary: serializer.fromJson<double>(json['salary']),
       applicationDate: serializer.fromJson<DateTime>(json['applicationDate']),
     );
   }
@@ -49,6 +60,8 @@ class Offer extends DataClass implements Insertable<Offer> {
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'company': serializer.toJson<String>(company),
+      'status': serializer.toJson<String>(status),
+      'salary': serializer.toJson<double>(salary),
       'applicationDate': serializer.toJson<DateTime>(applicationDate),
     };
   }
@@ -62,6 +75,10 @@ class Offer extends DataClass implements Insertable<Offer> {
       company: company == null && nullToAbsent
           ? const Value.absent()
           : Value(company),
+      status:
+          status == null && nullToAbsent ? const Value.absent() : Value(status),
+      salary:
+          salary == null && nullToAbsent ? const Value.absent() : Value(salary),
       applicationDate: applicationDate == null && nullToAbsent
           ? const Value.absent()
           : Value(applicationDate),
@@ -69,11 +86,18 @@ class Offer extends DataClass implements Insertable<Offer> {
   }
 
   Offer copyWith(
-          {int id, String title, String company, DateTime applicationDate}) =>
+          {int id,
+          String title,
+          String company,
+          String status,
+          double salary,
+          DateTime applicationDate}) =>
       Offer(
         id: id ?? this.id,
         title: title ?? this.title,
         company: company ?? this.company,
+        status: status ?? this.status,
+        salary: salary ?? this.salary,
         applicationDate: applicationDate ?? this.applicationDate,
       );
   @override
@@ -82,6 +106,8 @@ class Offer extends DataClass implements Insertable<Offer> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('company: $company, ')
+          ..write('status: $status, ')
+          ..write('salary: $salary, ')
           ..write('applicationDate: $applicationDate')
           ..write(')'))
         .toString();
@@ -91,7 +117,11 @@ class Offer extends DataClass implements Insertable<Offer> {
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
       $mrjc(
-          title.hashCode, $mrjc(company.hashCode, applicationDate.hashCode))));
+          title.hashCode,
+          $mrjc(
+              company.hashCode,
+              $mrjc(status.hashCode,
+                  $mrjc(salary.hashCode, applicationDate.hashCode))))));
   @override
   bool operator ==(other) =>
       identical(this, other) ||
@@ -99,6 +129,8 @@ class Offer extends DataClass implements Insertable<Offer> {
           other.id == id &&
           other.title == title &&
           other.company == company &&
+          other.status == status &&
+          other.salary == salary &&
           other.applicationDate == applicationDate);
 }
 
@@ -106,22 +138,30 @@ class OffersCompanion extends UpdateCompanion<Offer> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> company;
+  final Value<String> status;
+  final Value<double> salary;
   final Value<DateTime> applicationDate;
   const OffersCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.company = const Value.absent(),
+    this.status = const Value.absent(),
+    this.salary = const Value.absent(),
     this.applicationDate = const Value.absent(),
   });
   OffersCompanion copyWith(
       {Value<int> id,
       Value<String> title,
       Value<String> company,
+      Value<String> status,
+      Value<double> salary,
       Value<DateTime> applicationDate}) {
     return OffersCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       company: company ?? this.company,
+      status: status ?? this.status,
+      salary: salary ?? this.salary,
       applicationDate: applicationDate ?? this.applicationDate,
     );
   }
@@ -158,6 +198,27 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
         minTextLength: 1, maxTextLength: 50);
   }
 
+  final VerificationMeta _statusMeta = const VerificationMeta('status');
+  GeneratedTextColumn _status;
+  @override
+  GeneratedTextColumn get status => _status ??= _constructStatus();
+  GeneratedTextColumn _constructStatus() {
+    return GeneratedTextColumn('status', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  final VerificationMeta _salaryMeta = const VerificationMeta('salary');
+  GeneratedRealColumn _salary;
+  @override
+  GeneratedRealColumn get salary => _salary ??= _constructSalary();
+  GeneratedRealColumn _constructSalary() {
+    return GeneratedRealColumn(
+      'salary',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _applicationDateMeta =
       const VerificationMeta('applicationDate');
   GeneratedDateTimeColumn _applicationDate;
@@ -173,7 +234,8 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, title, company, applicationDate];
+  List<GeneratedColumn> get $columns =>
+      [id, title, company, status, salary, applicationDate];
   @override
   $OffersTable get asDslTable => this;
   @override
@@ -200,6 +262,18 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
           company.isAcceptableValue(d.company.value, _companyMeta));
     } else if (company.isRequired && isInserting) {
       context.missing(_companyMeta);
+    }
+    if (d.status.present) {
+      context.handle(
+          _statusMeta, status.isAcceptableValue(d.status.value, _statusMeta));
+    } else if (status.isRequired && isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (d.salary.present) {
+      context.handle(
+          _salaryMeta, salary.isAcceptableValue(d.salary.value, _salaryMeta));
+    } else if (salary.isRequired && isInserting) {
+      context.missing(_salaryMeta);
     }
     if (d.applicationDate.present) {
       context.handle(
@@ -231,6 +305,12 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
     }
     if (d.company.present) {
       map['company'] = Variable<String, StringType>(d.company.value);
+    }
+    if (d.status.present) {
+      map['status'] = Variable<String, StringType>(d.status.value);
+    }
+    if (d.salary.present) {
+      map['salary'] = Variable<double, RealType>(d.salary.value);
     }
     if (d.applicationDate.present) {
       map['application_date'] =

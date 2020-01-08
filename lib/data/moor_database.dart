@@ -9,11 +9,12 @@ class Offers extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get title => text().withLength(min: 1, max: 50)();
   TextColumn get company => text().withLength(min: 1, max: 50)();
+  TextColumn get status => text().withLength(min: 1, max: 50)();
+  RealColumn get salary => real()();
   // DateTime is not natively supported by SQLite
   // Moor converts it to & from UNIX seconds
   DateTimeColumn get applicationDate => dateTime().nullable()();
 }
-
 
 @UseMoor(tables: [Offers], daos: [OfferDao])
 class AppDatabase extends _$AppDatabase {
@@ -22,9 +23,8 @@ class AppDatabase extends _$AppDatabase {
       path: 'db.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 1;
 }
-
 
 // Denote which tables this DAO can access
 @UseDao(tables: [Offers])
