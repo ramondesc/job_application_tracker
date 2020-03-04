@@ -24,12 +24,22 @@ class OfferCard extends StatelessWidget {
     child: Container(
     padding: EdgeInsets.only(right: 12.0),
     decoration: BoxDecoration(color: Colors.white30),
-    child: ListTile(
-    title: Text(item.title),
-    subtitle: Text(item.applicationDate?.toString() ?? 'No date'),
-    )),
-    ),
-    ));
+    child: Column( children: <Widget>[ListTile(
+      enabled: true,
+      //isThreeLine: true,
+      //trailing: Icon(Icons.account_circle),
+      title: Text(item.title),
+      subtitle: Text("Sinqia"),
+      trailing: Text("\$" + item.salary.toString()),
+      //subtitle: Text(item.applicationDate?.toString() ?? 'No date'),
+    ),ButtonBar(            children: <Widget>[
+      Chip(label: Text("Java")),
+      Chip(label: Text("Node"),
+      backgroundColor: Colors.greenAccent,),
+      Chip(label: Text("FileMaker")),
+    ],)
+    ])
+    ))));
   }
 }
 

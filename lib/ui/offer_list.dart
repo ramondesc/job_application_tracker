@@ -14,8 +14,8 @@ class OfferList extends StatelessWidget {
         length: 5,
         child: Scaffold(
             appBar: AppBar(
-              title: Text('Welcome!'),
-              bottom: TabBar(tabs: [
+              //title: Text('Welcome!'),
+              title: TabBar(tabs: [
                 Tab(icon: Icon(Icons.star_border)),
                 Tab(icon: Icon(Icons.send)),
                 Tab(icon: Icon(Icons.people)),
@@ -23,7 +23,9 @@ class OfferList extends StatelessWidget {
                 Tab(icon: Icon(Icons.thumb_down))
               ]),
             ),
-            body: Column(
+            body: Scaffold(
+            backgroundColor: Colors.tealAccent,
+                body: Column(
               children: <Widget>[
                 Expanded(child: _buildOfferList(context)),
               ],
@@ -37,7 +39,7 @@ class OfferList extends StatelessWidget {
               },
               tooltip: 'New entry',
               child: Icon(Icons.add),
-            )));
+            ))));
   }
 
   StreamBuilder<List<Offer>> _buildOfferList(BuildContext context) {
