@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:job_application_tracking/ui/offer_card.dart';
+import 'package:job_application_tracking/ui/offer_details.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../data/moor_database.dart';
@@ -24,22 +26,20 @@ class OfferList extends StatelessWidget {
             body: Column(
               children: <Widget>[
                 Expanded(child: _buildOfferList(context)),
-
-
               ],
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NewOffer()),
-              );
+                  context,
+                  MaterialPageRoute(builder: (context) => NewOffer()),
+                );
               },
               tooltip: 'New entry',
               child: Icon(Icons.add),
-            ) ))
-    ;
+            )));
   }
+
   StreamBuilder<List<Offer>> _buildOfferList(BuildContext context) {
     final dao = Provider.of<OfferDao>(context);
     return StreamBuilder(
@@ -60,19 +60,16 @@ class OfferList extends StatelessWidget {
 
   Widget _buildListItem(Offer item, OfferDao dao) {
     return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'Delete',
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () => dao.deleteOffer(item),
-        )
-      ],
-      child: ListTile(
-        title: Text(item.title),
-        subtitle: Text(item.applicationDate?.toString() ?? 'No date'),
-      ),
+        actionPane: SlidableDrawerActionPane(),
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            caption: 'Delete',
+            color: Colors.red,
+            icon: Icons.delete,
+            onTap: () => dao.deleteOffer(item),
+          )
+        ],
+        child: new OfferCard(item)
     );
   }
 }
