@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:job_application_tracking/ui/offer_card.dart';
 import 'package:job_application_tracking/ui/offer_details.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import '../data/moor_database.dart';
 import 'package:job_application_tracking/new_offer.dart';
 
@@ -23,29 +22,30 @@ class OfferList extends StatelessWidget {
                 Tab(icon: Icon(Icons.thumb_down))
               ]),
             ),
-            body: Scaffold(
-            backgroundColor: Colors.tealAccent,
-                body: Column(
+            body: TabBarView(
               children: <Widget>[
-                Expanded(child: _buildOfferList(context)),
+                _buildOfferList(context, "Wishlist"),
+                _buildOfferList(context, "Applied"),
+                _buildOfferList(context, "Interview"),
+                _buildOfferList(context, "Accepted"),
+                _buildOfferList(context, "Rejected")
               ],
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NewOffer()),
-                );
-              },
-              tooltip: 'New entry',
-              child: Icon(Icons.add),
-            ))));
+    floatingActionButton: FloatingActionButton(
+    onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => NewOffer()),
+    );
+    },
+    tooltip: 'Cadastrar oportunidade',
+    child: Icon(Icons.add))));
   }
 
-  StreamBuilder<List<Offer>> _buildOfferList(BuildContext context) {
+  StreamBuilder<List<Offer>> _buildOfferList(BuildContext context, String status) {
     final dao = Provider.of<OfferDao>(context);
     return StreamBuilder(
-      stream: dao.watchAllOffers(),
+      stream: dao.watchOfferByStatus(status),
       builder: (context, AsyncSnapshot<List<Offer>> snapshot) {
         final offers = snapshot.data ?? List();
 
@@ -61,17 +61,6 @@ class OfferList extends StatelessWidget {
   }
 
   Widget _buildListItem(Offer item, OfferDao dao) {
-    return Slidable(
-        actionPane: SlidableDrawerActionPane(),
-        secondaryActions: <Widget>[
-          IconSlideAction(
-            caption: 'Delete',
-            color: Colors.red,
-            icon: Icons.delete,
-            onTap: () => dao.deleteOffer(item),
-          )
-        ],
-        child: new OfferCard(item)
-    );
+    return OfferCard(item);
   }
 }

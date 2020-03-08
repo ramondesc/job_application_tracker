@@ -11,6 +11,11 @@ class Offers extends Table {
   TextColumn get company => text().withLength(min: 1, max: 50)();
   TextColumn get status => text().withLength(min: 1, max: 50)();
   RealColumn get salary => real()();
+
+//TODO: criar tabela de skills
+//TODO: criar tabela de offer com skills
+
+
   // DateTime is not natively supported by SQLite
   // Moor converts it to & from UNIX seconds
   DateTimeColumn get applicationDate => dateTime().nullable()();
@@ -39,4 +44,11 @@ class OfferDao extends DatabaseAccessor<AppDatabase> with _$OfferDaoMixin {
   Future insertOffer(Insertable<Offer> offer) => into(offers).insert(offer);
   Future updateOffer(Insertable<Offer> offer) => update(offers).replace(offer);
   Future deleteOffer(Insertable<Offer> offer) => delete(offers).delete(offer);
+
+  Stream<List<Offer>> watchOfferByStatus(String status) {
+    return (select(offers)
+      ..where((o) => o.status.equals(status)))
+        .watch();
+  }
+
 }

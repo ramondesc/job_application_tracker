@@ -41,7 +41,7 @@ class _NewOfferState extends State<NewOffer> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("New entry"),
+          title: Text("Cadastrar vaga"),
         ),
         body: Form(
           key: _formKey,
@@ -52,7 +52,7 @@ class _NewOfferState extends State<NewOffer> {
                   title: new TextFormField(
                     controller: _jobTitleController,
                     decoration: new InputDecoration(
-                      hintText: "Job Title",
+                      hintText: "Título da vaga",
                     ),
                   )),
               new ListTile(
@@ -60,7 +60,7 @@ class _NewOfferState extends State<NewOffer> {
                   title: new TextFormField(
                     controller: _companyController,
                     decoration: new InputDecoration(
-                      hintText: "Company",
+                      hintText: "Empresa",
                     ),
                   )),
               new ListTile(
@@ -68,7 +68,7 @@ class _NewOfferState extends State<NewOffer> {
                   title: new TextFormField(
                     controller: _salaryController,
                     decoration: new InputDecoration(
-                      hintText: "Salary",
+                      hintText: "Salário",
                     ),
                   )),
               new ListTile(
