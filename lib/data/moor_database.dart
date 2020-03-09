@@ -11,14 +11,20 @@ class Offers extends Table {
   TextColumn get company => text().withLength(min: 1, max: 50)();
   TextColumn get status => text().withLength(min: 1, max: 50)();
   RealColumn get salary => real()();
-
+  TextColumn get platform => text().withLength(min: 1, max: 50)();
+  DateTimeColumn get applicationDate => dateTime().nullable()();
+}
 //TODO: criar tabela de skills
 //TODO: criar tabela de offer com skills
 
+class Skills extends Table {
+  IntColumn get id => integer().autoIncrement()();
+}
 
-  // DateTime is not natively supported by SQLite
-  // Moor converts it to & from UNIX seconds
-  DateTimeColumn get applicationDate => dateTime().nullable()();
+class SkillsOffer extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get offerId => integer()();
+  IntColumn get skillId => integer()();
 }
 
 @UseMoor(tables: [Offers], daos: [OfferDao])

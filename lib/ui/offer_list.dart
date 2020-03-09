@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:job_application_tracking/ui/offer_card.dart';
-import 'package:job_application_tracking/ui/offer_details.dart';
 import 'package:provider/provider.dart';
 import '../data/moor_database.dart';
 import 'package:job_application_tracking/new_offer.dart';
