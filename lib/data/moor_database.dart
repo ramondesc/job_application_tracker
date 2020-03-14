@@ -5,20 +5,19 @@ import 'package:moor_flutter/moor_flutter.dart';
 part 'moor_database.g.dart';
 
 class Offers extends Table {
-  // autoIncrement automatically sets this to be the primary key
   IntColumn get id => integer().autoIncrement()();
   TextColumn get title => text().withLength(min: 1, max: 50)();
   TextColumn get company => text().withLength(min: 1, max: 50)();
   TextColumn get status => text().withLength(min: 1, max: 50)();
   RealColumn get salary => real()();
   TextColumn get platform => text().withLength(min: 1, max: 50)();
+  TextColumn get regime => text().withLength(min: 1, max: 50)();
   DateTimeColumn get applicationDate => dateTime().nullable()();
 }
-//TODO: criar tabela de skills
-//TODO: criar tabela de offer com skills
 
 class Skills extends Table {
   IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().withLength(min: 1, max: 50)();
 }
 
 class SkillsOffer extends Table {

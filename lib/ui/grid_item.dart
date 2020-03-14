@@ -31,7 +31,7 @@ class GridCard extends StatelessWidget {
             children: <Widget>[
               Align(
                 child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 5, 0, 0),
+                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(title,
@@ -42,7 +42,7 @@ class GridCard extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 10, 5),
+                padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 child: Align(
                     alignment: Alignment.bottomRight,
                     child: Text(

@@ -1,31 +1,33 @@
 //import 'Offer.dart';
 
 import 'package:flutter/material.dart';
-import 'data/moor_database.dart';
+import '../data/moor_database.dart';
 import 'package:provider/provider.dart';
 
-class NewOffer extends StatefulWidget {
-  @override
+class ModifyOffer extends StatefulWidget {
+  final Offer item;
+  ModifyOffer(this.item);
+
   _NewOfferState createState() {
     return _NewOfferState();
   }
 }
 
-class _NewOfferState extends State<NewOffer> {
+class _NewOfferState extends State<ModifyOffer> {
+
 
   final _jobTitleController = TextEditingController();
   final _companyController = TextEditingController();
   final _salaryController = TextEditingController();
-  final _platformController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String offerStatus;
 
   List<String> _applicationStatus = [
-    'Wishlist',
-    'Applied',
-    'Interview',
-    'Offer',
-    'Rejected'
+    'Desejo',
+    'Candidatado',
+    'Entrevista',
+    'Oferta',
+    'Rejeitado'
   ];
 
   @override
@@ -42,7 +44,7 @@ class _NewOfferState extends State<NewOffer> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Cadastrar vaga"),
+          title: Text("Alterar vaga"),
         ),
         body: Form(
           key: _formKey,
@@ -85,16 +87,8 @@ class _NewOfferState extends State<NewOffer> {
                       offerStatus = val;
                       setState(() {});
                     },
-                  ),
-              ),
-      new ListTile(
-        leading: const Icon(Icons.computer),
-        title: new TextFormField(
-          controller: _jobTitleController,
-          decoration: new InputDecoration(
-            hintText: "Plataforma",
-          ),
-        ))],
+                  )),
+            ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -104,13 +98,13 @@ class _NewOfferState extends State<NewOffer> {
             if (_formKey.currentState.validate()) {
               final dao = Provider.of<OfferDao>(context);
               final offer = Offer(
-                company: _companyController.text,
-                title: _jobTitleController.text,
-                salary: double.parse(_salaryController.text),
-                status: offerStatus
+                  company: _companyController.text,
+                  title: _jobTitleController.text,
+                  salary: double.parse(_salaryController.text),
+                  status: offerStatus
               );
               dao.insertOffer(offer);
-              }
+            }
             Navigator.pop(context);
           },
           child: Icon(Icons.save),

@@ -11,9 +11,10 @@ class OfferList extends StatelessWidget {
     return DefaultTabController(
         length: 5,
         child: Scaffold(
+          drawer: Drawer(),
             appBar: AppBar(
-              //title: Text('Welcome!'),
-              title: TabBar(tabs: [
+              title: Text('Bem-vindo!'),
+              bottom: TabBar(tabs: [
                 Tab(icon: Icon(Icons.star_border)),
                 Tab(icon: Icon(Icons.send)),
                 Tab(icon: Icon(Icons.people)),

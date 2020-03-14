@@ -3,6 +3,7 @@ import 'offer_details.dart';
 import 'offer_list.dart';
 import '../new_offer_input.dart';
 import '../data/moor_database.dart';
+import 'edit_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,7 +19,8 @@ class _HomePageState extends State<HomePage> {
       routes: {
         '/offer_list': (context) => OfferList(),
         '/new_offer': (context) => NewOfferInput(),
-        '/offer_details': (context) => OfferDetails(item)
+        '/offer_details': (context) => OfferDetails(item),
+        '/edit_screen': (context) => ModifyOffer(item)
       },
     );
   }

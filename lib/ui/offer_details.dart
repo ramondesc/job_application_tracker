@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:job_application_tracking/ui/edit_screen.dart';
 import 'grid_item.dart';
 import '../data/moor_database.dart';
 import 'package:job_application_tracking/new_offer.dart';
+import 'alert_dialog.dart';
 
 class OfferDetails extends StatelessWidget {
   final Offer item;
@@ -18,9 +20,11 @@ class OfferDetails extends StatelessWidget {
             title: Text(item.title),
             actions: <Widget>[
               IconButton(icon: const Icon(Icons.edit),
-                onPressed: () {},),
+                onPressed: () {Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ModifyOffer(item)));},),
               IconButton(icon: const Icon(Icons.delete),
-              onPressed: () {},),
+              onPressed: () {showAlertDialog2(context);},),
             ],
             centerTitle: true,
             bottom: PreferredSize(
