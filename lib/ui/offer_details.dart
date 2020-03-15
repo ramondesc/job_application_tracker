@@ -17,7 +17,11 @@ class OfferDetails extends StatelessWidget {
         appBar: AppBar(
             elevation: 10.0,
             backgroundColor: Colors.grey[800],
-            title: Text(item.title),
+            title: Text(item.title,
+            style: TextStyle(
+              fontFamily: 'Google',
+              fontWeight: FontWeight.bold
+            ),),
             actions: <Widget>[
               IconButton(icon: const Icon(Icons.edit),
                 onPressed: () {Navigator.push(
@@ -27,7 +31,7 @@ class OfferDetails extends StatelessWidget {
               onPressed: () {showAlertDialog2(context);},),
             ],
             centerTitle: true,
-            bottom: PreferredSize(
+            /*bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0.0),
               child: Theme(
                 data: Theme.of(context).copyWith(accentColor: Colors.white),
@@ -38,19 +42,28 @@ class OfferDetails extends StatelessWidget {
                   style: TextStyle(color: Colors.white),),
                 ),
               ),
-            )),
-        body: GridView.count(
-          childAspectRatio: 2.2,
-          primary: false,
-          padding: const EdgeInsets.all(25),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 6,
-          crossAxisCount: 2,
-          children: <Widget>[
-            GridCard("Salário", item.salary.toString()),
-            GridCard("Tipo", "CLT"),
-            GridCard("Plataforma", "Kombo"),
-            GridCard("Divulgação", "01/01/2020")])
-        );
+            )*/),
+        body: Column(
+    children: <Widget>[
+      Container(
+            child: Text(item.company),
+        ),
+    Expanded(
+    child:
+      GridView.count(
+        childAspectRatio: 2.2,
+            primary: false,
+            padding: const EdgeInsets.all(15),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
+            children: <Widget>[
+              GridCard("Salário", item.salary.toString()),
+              GridCard("Tipo", "CLT"),
+              GridCard("Plataforma", "Kombo"),
+              GridCard("Divulgação", "01/01/2020")])
+    )]),
+    );
+
   }
 }

@@ -15,12 +15,12 @@ class GridCard extends StatelessWidget {
             boxShadow: <BoxShadow>[
           BoxShadow(
           color: Colors.grey[200],
-              offset: Offset(3.0, 3.0),
+              offset: Offset(1.0, 1.0),
               blurRadius: 3.0,
               spreadRadius: 0.5),
           BoxShadow(
               color: Colors.grey[300],
-              offset: Offset(-3.0, -3.0),
+              offset: Offset(-1.0, -1.0),
               blurRadius: 3.0,
               spreadRadius: 0.5),],
               color: Colors.white,
@@ -36,6 +36,7 @@ class GridCard extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Text(title,
                           style: TextStyle(
+                              //fontFamily: 'Google',
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold)),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:job_application_tracking/ui/offer_card.dart';
 import 'package:provider/provider.dart';
 import '../data/moor_database.dart';
@@ -13,6 +14,7 @@ class OfferList extends StatelessWidget {
         child: Scaffold(
           drawer: Drawer(),
             appBar: AppBar(
+              backgroundColor: Colors.teal,
               title: Text('Bem-vindo!'),
               bottom: TabBar(tabs: [
                 Tab(icon: Icon(Icons.star_border)),
@@ -49,13 +51,25 @@ class OfferList extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<Offer>> snapshot) {
         final offers = snapshot.data ?? List();
 
-        return ListView.builder(
+        return
+          /*AnimationLimiter(
+            child: */ListView.builder(
+              physics: BouncingScrollPhysics(),
           itemCount: offers.length,
           itemBuilder: (_, index) {
             final item = offers[index];
-            return _buildListItem(item, dao);
+            return AnimationConfiguration.staggeredList(position: index,
+                duration: const Duration(milliseconds: 375),
+                child: SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: _buildListItem(item, dao),
+                  ),
+                )
+                )
+              ;
           },
-        );
+      )  /*)*/;
       },
     );
   }
