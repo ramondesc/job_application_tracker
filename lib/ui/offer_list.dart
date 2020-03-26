@@ -14,9 +14,11 @@ class OfferList extends StatelessWidget {
         child: Scaffold(
           drawer: Drawer(),
             appBar: AppBar(
-              backgroundColor: Colors.teal,
+              backgroundColor: Color(0xFF003030),
               title: Text('Bem-vindo!'),
-              bottom: TabBar(tabs: [
+              bottom: TabBar(
+                indicatorColor: Colors.white,
+                  tabs: [
                 Tab(icon: Icon(Icons.star_border)),
                 Tab(icon: Icon(Icons.send)),
                 Tab(icon: Icon(Icons.people)),
@@ -24,16 +26,18 @@ class OfferList extends StatelessWidget {
                 Tab(icon: Icon(Icons.thumb_down))
               ]),
             ),
+            backgroundColor: Color(0xFF034E4E),
             body: TabBarView(
               children: <Widget>[
                 _buildOfferList(context, "Wishlist"),
                 _buildOfferList(context, "Applied"),
                 _buildOfferList(context, "Interview"),
-                _buildOfferList(context, "Accepted"),
+                _buildOfferList(context, "Offer"),
                 _buildOfferList(context, "Rejected")
               ],
             ),
     floatingActionButton: FloatingActionButton(
+      backgroundColor: Color(0xFF4C9595),
     onPressed: () {
     Navigator.push(
     context,

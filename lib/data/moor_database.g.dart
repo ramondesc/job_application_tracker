@@ -6,13 +6,15 @@ part of 'moor_database.dart';
 // MoorGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class Offer extends DataClass implements Insertable<Offer> {
   final int id;
   final String title;
   final String company;
   final String status;
   final double salary;
+  final String platform;
+  final String regime;
   final DateTime applicationDate;
   Offer(
       {@required this.id,
@@ -20,6 +22,8 @@ class Offer extends DataClass implements Insertable<Offer> {
       @required this.company,
       @required this.status,
       @required this.salary,
+      @required this.platform,
+      @required this.regime,
       this.applicationDate});
   factory Offer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -38,36 +42,45 @@ class Offer extends DataClass implements Insertable<Offer> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}status']),
       salary:
           doubleType.mapFromDatabaseResponse(data['${effectivePrefix}salary']),
+      platform: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}platform']),
+      regime:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}regime']),
       applicationDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}application_date']),
     );
   }
   factory Offer.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer = const ValueSerializer.defaults()}) {
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
     return Offer(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       company: serializer.fromJson<String>(json['company']),
       status: serializer.fromJson<String>(json['status']),
       salary: serializer.fromJson<double>(json['salary']),
+      platform: serializer.fromJson<String>(json['platform']),
+      regime: serializer.fromJson<String>(json['regime']),
       applicationDate: serializer.fromJson<DateTime>(json['applicationDate']),
     );
   }
   @override
-  Map<String, dynamic> toJson(
-      {ValueSerializer serializer = const ValueSerializer.defaults()}) {
-    return {
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'company': serializer.toJson<String>(company),
       'status': serializer.toJson<String>(status),
       'salary': serializer.toJson<double>(salary),
+      'platform': serializer.toJson<String>(platform),
+      'regime': serializer.toJson<String>(regime),
       'applicationDate': serializer.toJson<DateTime>(applicationDate),
     };
   }
 
   @override
-  T createCompanion<T extends UpdateCompanion<Offer>>(bool nullToAbsent) {
+  OffersCompanion createCompanion(bool nullToAbsent) {
     return OffersCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       title:
@@ -79,10 +92,15 @@ class Offer extends DataClass implements Insertable<Offer> {
           status == null && nullToAbsent ? const Value.absent() : Value(status),
       salary:
           salary == null && nullToAbsent ? const Value.absent() : Value(salary),
+      platform: platform == null && nullToAbsent
+          ? const Value.absent()
+          : Value(platform),
+      regime:
+          regime == null && nullToAbsent ? const Value.absent() : Value(regime),
       applicationDate: applicationDate == null && nullToAbsent
           ? const Value.absent()
           : Value(applicationDate),
-    ) as T;
+    );
   }
 
   Offer copyWith(
@@ -91,6 +109,8 @@ class Offer extends DataClass implements Insertable<Offer> {
           String company,
           String status,
           double salary,
+          String platform,
+          String regime,
           DateTime applicationDate}) =>
       Offer(
         id: id ?? this.id,
@@ -98,6 +118,8 @@ class Offer extends DataClass implements Insertable<Offer> {
         company: company ?? this.company,
         status: status ?? this.status,
         salary: salary ?? this.salary,
+        platform: platform ?? this.platform,
+        regime: regime ?? this.regime,
         applicationDate: applicationDate ?? this.applicationDate,
       );
   @override
@@ -108,6 +130,8 @@ class Offer extends DataClass implements Insertable<Offer> {
           ..write('company: $company, ')
           ..write('status: $status, ')
           ..write('salary: $salary, ')
+          ..write('platform: $platform, ')
+          ..write('regime: $regime, ')
           ..write('applicationDate: $applicationDate')
           ..write(')'))
         .toString();
@@ -120,18 +144,26 @@ class Offer extends DataClass implements Insertable<Offer> {
           title.hashCode,
           $mrjc(
               company.hashCode,
-              $mrjc(status.hashCode,
-                  $mrjc(salary.hashCode, applicationDate.hashCode))))));
+              $mrjc(
+                  status.hashCode,
+                  $mrjc(
+                      salary.hashCode,
+                      $mrjc(
+                          platform.hashCode,
+                          $mrjc(
+                              regime.hashCode, applicationDate.hashCode))))))));
   @override
-  bool operator ==(other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Offer &&
-          other.id == id &&
-          other.title == title &&
-          other.company == company &&
-          other.status == status &&
-          other.salary == salary &&
-          other.applicationDate == applicationDate);
+          other.id == this.id &&
+          other.title == this.title &&
+          other.company == this.company &&
+          other.status == this.status &&
+          other.salary == this.salary &&
+          other.platform == this.platform &&
+          other.regime == this.regime &&
+          other.applicationDate == this.applicationDate);
 }
 
 class OffersCompanion extends UpdateCompanion<Offer> {
@@ -140,6 +172,8 @@ class OffersCompanion extends UpdateCompanion<Offer> {
   final Value<String> company;
   final Value<String> status;
   final Value<double> salary;
+  final Value<String> platform;
+  final Value<String> regime;
   final Value<DateTime> applicationDate;
   const OffersCompanion({
     this.id = const Value.absent(),
@@ -147,14 +181,33 @@ class OffersCompanion extends UpdateCompanion<Offer> {
     this.company = const Value.absent(),
     this.status = const Value.absent(),
     this.salary = const Value.absent(),
+    this.platform = const Value.absent(),
+    this.regime = const Value.absent(),
     this.applicationDate = const Value.absent(),
   });
+  OffersCompanion.insert({
+    this.id = const Value.absent(),
+    @required String title,
+    @required String company,
+    @required String status,
+    @required double salary,
+    @required String platform,
+    @required String regime,
+    this.applicationDate = const Value.absent(),
+  })  : title = Value(title),
+        company = Value(company),
+        status = Value(status),
+        salary = Value(salary),
+        platform = Value(platform),
+        regime = Value(regime);
   OffersCompanion copyWith(
       {Value<int> id,
       Value<String> title,
       Value<String> company,
       Value<String> status,
       Value<double> salary,
+      Value<String> platform,
+      Value<String> regime,
       Value<DateTime> applicationDate}) {
     return OffersCompanion(
       id: id ?? this.id,
@@ -162,6 +215,8 @@ class OffersCompanion extends UpdateCompanion<Offer> {
       company: company ?? this.company,
       status: status ?? this.status,
       salary: salary ?? this.salary,
+      platform: platform ?? this.platform,
+      regime: regime ?? this.regime,
       applicationDate: applicationDate ?? this.applicationDate,
     );
   }
@@ -219,6 +274,24 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
     );
   }
 
+  final VerificationMeta _platformMeta = const VerificationMeta('platform');
+  GeneratedTextColumn _platform;
+  @override
+  GeneratedTextColumn get platform => _platform ??= _constructPlatform();
+  GeneratedTextColumn _constructPlatform() {
+    return GeneratedTextColumn('platform', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  final VerificationMeta _regimeMeta = const VerificationMeta('regime');
+  GeneratedTextColumn _regime;
+  @override
+  GeneratedTextColumn get regime => _regime ??= _constructRegime();
+  GeneratedTextColumn _constructRegime() {
+    return GeneratedTextColumn('regime', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
   final VerificationMeta _applicationDateMeta =
       const VerificationMeta('applicationDate');
   GeneratedDateTimeColumn _applicationDate;
@@ -235,7 +308,7 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, title, company, status, salary, applicationDate];
+      [id, title, company, status, salary, platform, regime, applicationDate];
   @override
   $OffersTable get asDslTable => this;
   @override
@@ -248,40 +321,48 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (id.isRequired && isInserting) {
-      context.missing(_idMeta);
     }
     if (d.title.present) {
       context.handle(
           _titleMeta, title.isAcceptableValue(d.title.value, _titleMeta));
-    } else if (title.isRequired && isInserting) {
+    } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (d.company.present) {
       context.handle(_companyMeta,
           company.isAcceptableValue(d.company.value, _companyMeta));
-    } else if (company.isRequired && isInserting) {
+    } else if (isInserting) {
       context.missing(_companyMeta);
     }
     if (d.status.present) {
       context.handle(
           _statusMeta, status.isAcceptableValue(d.status.value, _statusMeta));
-    } else if (status.isRequired && isInserting) {
+    } else if (isInserting) {
       context.missing(_statusMeta);
     }
     if (d.salary.present) {
       context.handle(
           _salaryMeta, salary.isAcceptableValue(d.salary.value, _salaryMeta));
-    } else if (salary.isRequired && isInserting) {
+    } else if (isInserting) {
       context.missing(_salaryMeta);
+    }
+    if (d.platform.present) {
+      context.handle(_platformMeta,
+          platform.isAcceptableValue(d.platform.value, _platformMeta));
+    } else if (isInserting) {
+      context.missing(_platformMeta);
+    }
+    if (d.regime.present) {
+      context.handle(
+          _regimeMeta, regime.isAcceptableValue(d.regime.value, _regimeMeta));
+    } else if (isInserting) {
+      context.missing(_regimeMeta);
     }
     if (d.applicationDate.present) {
       context.handle(
           _applicationDateMeta,
           applicationDate.isAcceptableValue(
               d.applicationDate.value, _applicationDateMeta));
-    } else if (applicationDate.isRequired && isInserting) {
-      context.missing(_applicationDateMeta);
     }
     return context;
   }
@@ -312,6 +393,12 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
     if (d.salary.present) {
       map['salary'] = Variable<double, RealType>(d.salary.value);
     }
+    if (d.platform.present) {
+      map['platform'] = Variable<String, StringType>(d.platform.value);
+    }
+    if (d.regime.present) {
+      map['regime'] = Variable<String, StringType>(d.regime.value);
+    }
     if (d.applicationDate.present) {
       map['application_date'] =
           Variable<DateTime, DateTimeType>(d.applicationDate.value);
@@ -326,13 +413,15 @@ class $OffersTable extends Offers with TableInfo<$OffersTable, Offer> {
 }
 
 abstract class _$AppDatabase extends GeneratedDatabase {
-  _$AppDatabase(QueryExecutor e) : super(const SqlTypeSystem.withDefaults(), e);
+  _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $OffersTable _offers;
   $OffersTable get offers => _offers ??= $OffersTable(this);
   OfferDao _offerDao;
   OfferDao get offerDao => _offerDao ??= OfferDao(this as AppDatabase);
   @override
-  List<TableInfo> get allTables => [offers];
+  Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
+  @override
+  List<DatabaseSchemaEntity> get allSchemaEntities => [offers];
 }
 
 // **************************************************************************

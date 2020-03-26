@@ -8,26 +8,37 @@ class ModifyOffer extends StatefulWidget {
   final Offer item;
   ModifyOffer(this.item);
 
-  _NewOfferState createState() {
-    return _NewOfferState();
+  _ModifyOfferState createState() {
+    return _ModifyOfferState(item);
   }
 }
 
-class _NewOfferState extends State<ModifyOffer> {
+class _ModifyOfferState extends State<ModifyOffer> {
 
+  TextEditingController _jobTitleController;
+  TextEditingController _companyController;
+  TextEditingController _salaryController;
 
-  final _jobTitleController = TextEditingController();
+  Offer item;
+
+  _ModifyOfferState(this.item) {
+    _jobTitleController = TextEditingController(text: item.title );
+    _companyController = TextEditingController(text: item.company );
+    _salaryController = TextEditingController(text: item.salary.toString() );
+  }
+
+  /*final _jobTitleController = TextEditingController(text: widget.item.title);
   final _companyController = TextEditingController();
-  final _salaryController = TextEditingController();
+  final _salaryController = TextEditingController();*/
   final _formKey = GlobalKey<FormState>();
   String offerStatus;
 
   List<String> _applicationStatus = [
-    'Desejo',
-    'Candidatado',
-    'Entrevista',
-    'Oferta',
-    'Rejeitado'
+    'Wishlist',
+    'Applied',
+    'Interview',
+    'Offer',
+    'Rejected'
   ];
 
   @override
@@ -54,6 +65,7 @@ class _NewOfferState extends State<ModifyOffer> {
                   leading: const Icon(Icons.business_center),
                   title: new TextFormField(
                     controller: _jobTitleController,
+                    //initialValue: widget.item.title,
                     decoration: new InputDecoration(
                       hintText: "Título da vaga",
                     ),
@@ -98,12 +110,15 @@ class _NewOfferState extends State<ModifyOffer> {
             if (_formKey.currentState.validate()) {
               final dao = Provider.of<OfferDao>(context);
               final offer = Offer(
+                  id: item.id,
                   company: _companyController.text,
                   title: _jobTitleController.text,
                   salary: double.parse(_salaryController.text),
-                  status: offerStatus
+                  status: offerStatus,
+                  platform: "",
+                  regime: ""
               );
-              dao.insertOffer(offer);
+              dao.updateOffer(offer);
             }
             Navigator.pop(context);
           },

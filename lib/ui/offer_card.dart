@@ -13,6 +13,7 @@ class OfferCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: Card(
+          color: Color(0xFF003030),
             elevation: 8.0,
             margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: InkWell(
@@ -31,7 +32,8 @@ class OfferCard extends StatelessWidget {
                         enabled: true,
                         //isThreeLine: true,
                         //trailing: Icon(Icons.account_circle),
-                        title: Text(item.title),
+                        title: Text(item.title,
+                        style: TextStyle(color: Colors.white),),
                         subtitle: Text(item.status),
                         trailing: Text("R\$" + item.salary.toString()),
                         //subtitle: Text(item.applicationDate?.toString() ?? 'No date'),

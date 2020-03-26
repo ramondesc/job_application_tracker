@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/moor_database.dart';
 
-showAlertDialog2(BuildContext context) {
+showAlertDialog2(BuildContext context, Offer item) {
 
   Widget cancelaButton = FlatButton(
     child: Text("Cancelar"),
@@ -12,7 +12,8 @@ showAlertDialog2(BuildContext context) {
     child: Text("Continar"),
     onPressed:  () {
       final dao = Provider.of<OfferDao>(context);
-      //dao.deleteOffer(offer);
+      dao.deleteOffer(item);
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
     },
   );

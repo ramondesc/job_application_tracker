@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:job_application_tracking/ui/edit_screen.dart';
 import 'grid_item.dart';
 import '../data/moor_database.dart';
-import 'package:job_application_tracking/new_offer.dart';
 import 'alert_dialog.dart';
 
 class OfferDetails extends StatelessWidget {
@@ -13,6 +12,37 @@ class OfferDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body:CustomScrollView(slivers: <Widget>[
+      SliverAppBar(
+        title: Text(item.title),
+        floating: true,
+        expandedHeight: 200,
+        flexibleSpace: Placeholder(),
+        actions: <Widget>[
+          IconButton(icon: const Icon(Icons.edit),
+            onPressed: () {Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ModifyOffer(item)));},),
+          IconButton(icon: const Icon(Icons.delete),
+            onPressed: () {showAlertDialog2(context, item);},),],
+      ),
+      SliverGrid(
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            childAspectRatio: 3.0,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            maxCrossAxisExtent: 200,
+
+          ),
+          delegate: SliverChildListDelegate([
+            GridCard("Salário", item.salary.toString()),
+            GridCard("Tipo", "CLT"),
+            GridCard("Plataforma", "Kombo"),
+            GridCard("Divulgação", "01/01/2020")
+          ]))
+    ]));
+
+    /*Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
             elevation: 10.0,
@@ -23,12 +53,6 @@ class OfferDetails extends StatelessWidget {
               fontWeight: FontWeight.bold
             ),),
             actions: <Widget>[
-              IconButton(icon: const Icon(Icons.edit),
-                onPressed: () {Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ModifyOffer(item)));},),
-              IconButton(icon: const Icon(Icons.delete),
-              onPressed: () {showAlertDialog2(context);},),
             ],
             centerTitle: true,
             /*bottom: PreferredSize(
@@ -63,7 +87,7 @@ class OfferDetails extends StatelessWidget {
               GridCard("Plataforma", "Kombo"),
               GridCard("Divulgação", "01/01/2020")])
     )]),
-    );
+    )*/
 
   }
 }

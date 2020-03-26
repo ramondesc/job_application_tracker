@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-        builder: (_) => AppDatabase().offerDao,
+        create: (_) => AppDatabase().offerDao,
         child: HomePage()
         );
   }
