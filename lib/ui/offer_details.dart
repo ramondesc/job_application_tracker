@@ -16,8 +16,8 @@ class OfferDetails extends StatelessWidget {
       SliverAppBar(
         title: Text(item.title),
         floating: true,
-        expandedHeight: 200,
-        flexibleSpace: Placeholder(),
+        //expandedHeight: 200,
+        //flexibleSpace: Placeholder(),
         actions: <Widget>[
           IconButton(icon: const Icon(Icons.edit),
             onPressed: () {Navigator.push(
@@ -28,7 +28,7 @@ class OfferDetails extends StatelessWidget {
       ),
       SliverGrid(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            childAspectRatio: 3.0,
+            childAspectRatio: 1.9,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             maxCrossAxisExtent: 200,

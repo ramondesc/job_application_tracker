@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
         '/offer_details': (context) => OfferDetails(item),
         '/edit_screen': (context) => ModifyOffer(item)
       },
+      theme: ThemeData.dark(),
     );
   }
 }

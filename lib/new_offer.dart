@@ -41,10 +41,8 @@ class _NewOfferState extends State<NewOffer> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF003030),
           title: Text("Cadastrar vaga"),
         ),
-        backgroundColor: Color(0xFF034E4E),
         body: Form(
           key: _formKey,
           child: Column(
@@ -100,7 +98,7 @@ class _NewOfferState extends State<NewOffer> {
                       hoverColor: Colors.white,
                       focusColor: Colors.white,
                       hintText: "Salário",
-                      hintStyle: TextStyle(),
+                      hintStyle: TextStyle(color: Colors.grey[500]),
                     ),
                   )),
               new ListTile(
@@ -109,11 +107,13 @@ class _NewOfferState extends State<NewOffer> {
                   color: Colors.white,
                 ),
                 title: new DropdownButton<String>(
+                  isDense: true,
                   items: _applicationStatus.map((String value) {
                     return new DropdownMenuItem<String>(
-                        child: new Text(value), value: value);
+                        child: new Text(value, style: TextStyle(color: Colors.grey[500])), value: value);
                   }).toList(),
-                  hint: Text('Status'),
+                  hint: Text('Status', style: TextStyle(color: Colors.grey[500]),),
+                  focusColor: Colors.grey[500],
                   value: offerStatus,
                   onChanged: (val) {
                     offerStatus = val;
@@ -122,11 +122,22 @@ class _NewOfferState extends State<NewOffer> {
                 ),
               ),
               new ListTile(
-                  leading: const Icon(Icons.computer),
+                  leading: const Icon(Icons.computer,
+                      color: Colors.white),
                   title: new TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                    cursorColor: Colors.white,
                     controller: _platformController,
                     decoration: new InputDecoration(
+                      labelStyle: new TextStyle(
+                        color: Colors.white,
+                      ),
+                      hoverColor: Colors.white,
+                      focusColor: Colors.white,
                       hintText: "Plataforma",
+                      hintStyle: TextStyle(color: Colors.grey[500]),
                     ),
                   ))
             ],
